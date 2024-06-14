@@ -13,7 +13,7 @@ void loop() {
     } finally {
       lock.unlock();
     }
-    // global warming
+    // ...
   }
   System.out.println("end !");
 }

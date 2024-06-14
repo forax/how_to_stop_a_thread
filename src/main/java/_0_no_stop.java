@@ -5,7 +5,7 @@ void loop() {
     if (stop) {
       break;
     }
-    // global warming
+    // ...
   }
   System.out.println("end !");
 }

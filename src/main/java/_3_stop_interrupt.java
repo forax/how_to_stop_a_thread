@@ -3,7 +3,7 @@ void loop() {
     if (Thread.interrupted()) {
       break;
     }
-    // global warming
+    // ...
   }
   System.out.println("end !");
 }

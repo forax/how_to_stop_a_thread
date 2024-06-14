@@ -9,7 +9,7 @@ void loop() {
     if (!scope.isAlive()) {
       break;
     }
-    // global warming
+    // ...
   }
   System.out.println("end !");
 }

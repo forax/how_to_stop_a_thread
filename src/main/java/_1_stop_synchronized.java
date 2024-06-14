@@ -8,7 +8,7 @@ void loop() {
         break;
       }
     }
-    // global warming
+    // ...
   }
   System.out.println("end !");
 }
