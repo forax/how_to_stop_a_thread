@@ -28,23 +28,23 @@ The following results are on my MacBook Air M2:
 The following results are on an x86_64 Intel(R) Xeon(R) Gold 5218 CPU @ 2.30GHz
 ```
 Benchmark                                Mode  Cnt     Score    Error  Units
-ThreadStopBench.stop_synchronized        avgt    5    16.696 ?  0.745  ns/op
-ThreadStopBench.stop_reentrant_lock      avgt    5    13.898 ?  0.085  ns/op
-ThreadStopBench.stop_interrupt           avgt    5     0.524 ?  0.006  ns/op
-ThreadStopBench.stop_volatile            avgt    5     0.522 ?  0.023  ns/op
-ThreadStopBench.stop_opaque              avgt    5     0.522 ?  0.023  ns/op
-ThreadStopBench.stop_callsite            avgt    5     0.393 ?  0.001  ns/op
-ThreadStopBench.stop_arena               avgt    5     0.785 ?  0.021  ns/op
+ThreadStopBench.stop_synchronized        avgt    5    16.696 ±  0.745  ns/op
+ThreadStopBench.stop_reentrant_lock      avgt    5    13.898 ±  0.085  ns/op
+ThreadStopBench.stop_interrupt           avgt    5     0.524 ±  0.006  ns/op
+ThreadStopBench.stop_volatile            avgt    5     0.522 ±  0.023  ns/op
+ThreadStopBench.stop_opaque              avgt    5     0.522 ±  0.023  ns/op
+ThreadStopBench.stop_callsite            avgt    5     0.393 ±  0.001  ns/op
+ThreadStopBench.stop_arena               avgt    5     0.785 ±  0.021  ns/op
 ```
 
 ```
-ThreadStopLoopBench.stop_synchronized    avgt    5  1678.665 ? 38.996  us/op
-ThreadStopLoopBench.stop_reentrant_lock  avgt    5  1409.330 ? 47.300  us/op
-ThreadStopLoopBench.stop_interrupt       avgt    5    65.532 ?  0.358  us/op
-ThreadStopLoopBench.stop_volatile        avgt    5    65.549 ?  0.832  us/op
-ThreadStopLoopBench.stop_opaque          avgt    5    27.700 ?  1.323  us/op
-ThreadStopLoopBench.stop_callsite        avgt    5    27.353 ?  0.050  us/op
-ThreadStopLoopBench.stop_arena           avgt    5    27.844 ?  0.344  us/op
+ThreadStopLoopBench.stop_synchronized    avgt    5  1678.665 ± 38.996  us/op
+ThreadStopLoopBench.stop_reentrant_lock  avgt    5  1409.330 ± 47.300  us/op
+ThreadStopLoopBench.stop_interrupt       avgt    5    65.532 ±  0.358  us/op
+ThreadStopLoopBench.stop_volatile        avgt    5    65.549 ±  0.832  us/op
+ThreadStopLoopBench.stop_opaque          avgt    5    27.700 ±  1.323  us/op
+ThreadStopLoopBench.stop_callsite        avgt    5    27.353 ±  0.050  us/op
+ThreadStopLoopBench.stop_arena           avgt    5    27.844 ±  0.344  us/op
 ```
 
 1. Using synchronized
