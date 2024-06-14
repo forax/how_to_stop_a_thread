@@ -1,5 +1,5 @@
 package com.github.forax.threadstop.bench;
-/*
+
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Fork;
@@ -21,13 +21,14 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
-// Benchmark                                Mode  Cnt      Score     Error  Units
-// ThreadStopLoopBench.stop_arena           avgt    5   3047.597 ±  12.605  ns/op
-// ThreadStopLoopBench.stop_callsite        avgt    5   3048.412 ±   6.251  ns/op
-// ThreadStopLoopBench.stop_opaque          avgt    5   3044.346 ±   9.376  ns/op
-// ThreadStopLoopBench.stop_reentrant_lock  avgt    5  83570.143 ± 496.579  ns/op
-// ThreadStopLoopBench.stop_synchronized    avgt    5  50545.529 ± 136.935  ns/op
-// ThreadStopLoopBench.stop_volatile        avgt    5   5228.092 ±   9.835  ns/op
+// Benchmark                                Mode  Cnt    Score    Error  Units
+// ThreadStopLoopBench.stop_arena           avgt    5   30.592 ±  0.091  us/op
+// ThreadStopLoopBench.stop_callsite        avgt    5   30.604 ±  0.071  us/op
+// ThreadStopLoopBench.stop_interrupt       avgt    5   51.382 ±  0.423  us/op
+// ThreadStopLoopBench.stop_opaque          avgt    5   30.584 ±  0.075  us/op
+// ThreadStopLoopBench.stop_reentrant_lock  avgt    5  833.998 ±  1.591  us/op
+// ThreadStopLoopBench.stop_synchronized    avgt    5  510.287 ± 24.235  us/op
+// ThreadStopLoopBench.stop_volatile        avgt    5   51.867 ±  0.303  us/op
 
 // $JAVA_HOME/bin/java -jar target/benchmarks.jar -prof dtraceasm
 @Warmup(iterations = 5, time = 2, timeUnit = TimeUnit.SECONDS)
@@ -168,6 +169,6 @@ public class ThreadStopLoopBench {
     return sum;
   }
 }
-*/
+
 
 

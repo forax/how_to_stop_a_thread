@@ -1,5 +1,5 @@
 package com.github.forax.threadstop.bench;
-
+/*
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Fork;
@@ -118,5 +118,5 @@ public class ThreadStopBench {
     return !scope.isAlive();
   }
 }
-
+*/
 
