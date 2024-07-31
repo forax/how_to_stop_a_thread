@@ -31,7 +31,7 @@ import java.util.concurrent.locks.ReentrantLock;
 // ThreadStopLoopBench.stop_volatile        avgt    5   51.867 ±  0.303  us/op
 
 // $JAVA_HOME/bin/java -jar target/benchmarks.jar -prof dtraceasm
-@Warmup(iterations = 5, time = 2, timeUnit = TimeUnit.SECONDS)
+/*@Warmup(iterations = 5, time = 2, timeUnit = TimeUnit.SECONDS)
 @Measurement(iterations = 5, time = 2, timeUnit = TimeUnit.SECONDS)
 @Fork(value = 1)
 @BenchmarkMode(Mode.AverageTime)
@@ -168,7 +168,7 @@ public class ThreadStopLoopBench {
     }
     return sum;
   }
-}
+}*/
 
 
 
