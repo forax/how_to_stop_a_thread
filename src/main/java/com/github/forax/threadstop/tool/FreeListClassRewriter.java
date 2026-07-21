@@ -12,14 +12,15 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class FreeListClassRewriter {
-  public static void main(String[] args) throws IOException {
+  static void main() throws IOException {
     var freezeListPath = Path.of(FreezeList.class.getName().replace('.', '/') + ".class");
     var path = Path.of("target", "classes").resolve(freezeListPath);
-    var classModel = ClassFile.of().parse(path);
+    var classFile = ClassFile.of();
+    var classModel = classFile.parse(path);
     if (classModel.majorVersion() > Runtime.version().feature() + 44) {
       throw new AssertionError("unknown bytecode version " + classModel.majorVersion());
     }
-    var bytecode = ClassFile.of().transform(classModel, (classBuilder, classElement) -> {
+    var bytecode = classFile.transformClass(classModel, (classBuilder, classElement) -> {
       //System.out.println(" ." + classElement);
       switch (classElement) {
         case MethodModel methodModel -> {
@@ -48,7 +49,7 @@ public class FreeListClassRewriter {
       }
     });
 
-    var errors = ClassFile.of().verify(bytecode);
+    var errors = classFile.verify(bytecode);
     if (!errors.isEmpty()) {
       throw new AssertionError("error while rewriting " + path);
     }

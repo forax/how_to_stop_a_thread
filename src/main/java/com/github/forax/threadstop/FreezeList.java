@@ -34,7 +34,7 @@ public final class FreezeList<E> extends AbstractList<E> implements RandomAccess
     this.ownerThread = Thread.currentThread();
     this.arena = arena;
     this.scope = scope;
-    // super();
+    super();
   }
 
   public void freeze() {

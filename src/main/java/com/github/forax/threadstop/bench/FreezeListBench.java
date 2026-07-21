@@ -19,12 +19,12 @@ import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.toCollection;
 
-// Benchmark                                       Mode  Cnt  Score   Error  Units
-// FreezeListBench.arrayListIteratorLoop           avgt    5  4.219 ± 0.014  us/op
-// FreezeListBench.arrayListLoop                   avgt    5  4.122 ± 0.005  us/op
-// FreezeListBench.freezeListIteratorLoop          avgt    5  4.165 ± 0.005  us/op
-// FreezeListBench.freezeListLoop                  avgt    5  3.989 ± 0.003  us/op
-
+// Benchmark                               Mode  Cnt  Score   Error  Units
+// FreezeListBench.arrayListIteratorLoop   avgt    5  4,358 ± 0,055  us/op
+// FreezeListBench.arrayListLoop           avgt    5  4,286 ± 0,044  us/op
+// FreezeListBench.freezeListIteratorLoop  avgt    5  4,429 ± 0,160  us/op
+// FreezeListBench.freezeListLoop          avgt    5  4,288 ± 0,061  us/op
+/*
 // $JAVA_HOME/bin/java -jar target/benchmarks.jar -prof dtraceasm
 @Warmup(iterations = 5, time = 2, timeUnit = TimeUnit.SECONDS)
 @Measurement(iterations = 5, time = 2, timeUnit = TimeUnit.SECONDS)
@@ -79,6 +79,6 @@ public class FreezeListBench {
     }
     return sum;
   }
-}
+}*/
 
 

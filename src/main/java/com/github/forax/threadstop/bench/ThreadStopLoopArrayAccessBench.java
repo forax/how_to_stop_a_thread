@@ -12,7 +12,6 @@ import org.openjdk.jmh.annotations.Warmup;
 
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
-import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.invoke.MutableCallSite;
@@ -21,15 +20,15 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
-// Benchmark                                Mode  Cnt    Score    Error  Units
-// ThreadStopLoopBench.stop_arena           avgt    5   31,016 ±  0,618  us/op
-// ThreadStopLoopBench.stop_interrupt       avgt    5   52,660 ±  0,122  us/op
-// ThreadStopLoopBench.stop_opaque          avgt    5   31,022 ±  0,829  us/op
-// ThreadStopLoopBench.stop_reentrant_lock  avgt    5  858,452 ± 10,072  us/op
-// ThreadStopLoopBench.stop_synchronized    avgt    5  559,514 ± 11,108  us/op
-// ThreadStopLoopBench.stop_volatile        avgt    5   52,746 ±  0,462  us/op
+// Benchmark                                           Mode  Cnt    Score   Error  Units
+// ThreadStopLoopArrayAccessBench.no_stop              avgt    5   29,675 ± 0,352  us/op
+// ThreadStopLoopArrayAccessBench.stop_arena           avgt    5   29,556 ± 0,332  us/op
+// ThreadStopLoopArrayAccessBench.stop_interrupt       avgt    5   63,205 ± 0,304  us/op
+// ThreadStopLoopArrayAccessBench.stop_opaque          avgt    5   29,788 ± 0,104  us/op
+// ThreadStopLoopArrayAccessBench.stop_reentrant_lock  avgt    5  850,208 ± 2,851  us/op
+// ThreadStopLoopArrayAccessBench.stop_synchronized    avgt    5  554,027 ± 3,947  us/op
+// ThreadStopLoopArrayAccessBench.stop_volatile        avgt    5   63,170 ± 0,357  us/op
 
-/*
 // $JAVA_HOME/bin/java -jar target/benchmarks.jar -prof dtraceasm
 @Warmup(iterations = 5, time = 2, timeUnit = TimeUnit.SECONDS)
 @Measurement(iterations = 5, time = 2, timeUnit = TimeUnit.SECONDS)
@@ -37,17 +36,18 @@ import java.util.concurrent.locks.ReentrantLock;
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
 @State(Scope.Benchmark)
-public class ThreadStopLoopBench {
+public class ThreadStopLoopArrayAccessBench {
   private final int[] array = new Random(0).ints(100_000).toArray();
 
   @Benchmark
   public int no_stop() {
     var sum = 0;
     for(var i = 0; i < array.length; i++) {
-      sum += i;
+      sum += array[i];
     }
     return sum;
   }
+
 
   boolean synchronized_stop;
   final Object synchronized_lock = new Object();
@@ -61,7 +61,7 @@ public class ThreadStopLoopBench {
           break;
         }
       }
-      sum += i;
+      sum += array[i];
     }
     return sum;
   }
@@ -82,7 +82,7 @@ public class ThreadStopLoopBench {
       } finally {
         reentrant_lock.unlock();
       }
-      sum += i;
+      sum += array[i];
     }
     return sum;
   }
@@ -95,7 +95,7 @@ public class ThreadStopLoopBench {
       if (Thread.interrupted()) {
         break;
       }
-      sum += i;
+      sum += array[i];
     }
     return sum;
   }
@@ -110,7 +110,7 @@ public class ThreadStopLoopBench {
       if (volatile_stop) {
         break;
       }
-      sum += i;
+      sum += array[i];
     }
     return sum;
   }
@@ -121,7 +121,7 @@ public class ThreadStopLoopBench {
   static {
     var lookup = MethodHandles.lookup();
     try {
-      OPAQUE_STOP = lookup.findVarHandle(ThreadStopLoopBench.class, "opaque_stop", boolean.class);
+      OPAQUE_STOP = lookup.findVarHandle(ThreadStopLoopArrayAccessBench.class, "opaque_stop", boolean.class);
     } catch (NoSuchFieldException | IllegalAccessException e) {
       throw new AssertionError(e);
     }
@@ -134,7 +134,7 @@ public class ThreadStopLoopBench {
       if ((boolean) OPAQUE_STOP.get(this)) {
         break;
       }
-      sum += i;
+      sum += array[i];
     }
     return sum;
   }
@@ -157,7 +157,7 @@ public class ThreadStopLoopBench {
 //      if ((boolean) STOP_MH.invokeExact()) {
 //        break;
 //      }
-//      sum += i;
+//      sum += array[i];
 //    }
 //    return sum;
 //  }
@@ -173,12 +173,12 @@ public class ThreadStopLoopBench {
       if (!scope.isAlive()) {
         break;
       }
-      sum += i;
+      sum += array[i];
     }
     return sum;
   }
 }
- */
+
 
 
 

@@ -21,22 +21,31 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
 // Benchmark                            Mode  Cnt  Score   Error  Units
-// ThreadStopBench.stop_arena           avgt    5  0.613 ± 0.004  ns/op
-// ThreadStopBench.stop_callsite        avgt    5  0.306 ± 0.002  ns/op
-// ThreadStopBench.stop_interrupt       avgt    5  0.490 ± 0.002  ns/op
-// ThreadStopBench.stop_opaque          avgt    5  0.409 ± 0.004  ns/op
-// ThreadStopBench.stop_reentrant_lock  avgt    5  8.406 ± 0.035  ns/op
-// ThreadStopBench.stop_synchronized    avgt    5  5.055 ± 0.023  ns/op
-// ThreadStopBench.stop_volatile        avgt    5  0.496 ± 0.004  ns/op
+// ThreadStopBench.no_stop              avgt    5  0,421 ± 0,004  ns/op
+// ThreadStopBench.stop_arena           avgt    5  0,632 ± 0,002  ns/op
+// ThreadStopBench.stop_interrupt       avgt    5  0,532 ± 0,216  ns/op
+// ThreadStopBench.stop_opaque          avgt    5  0,422 ± 0,003  ns/op
+// ThreadStopBench.stop_reentrant_lock  avgt    5  8,512 ± 0,076  ns/op
+// ThreadStopBench.stop_synchronized    avgt    5  5,597 ± 0,055  ns/op
+// ThreadStopBench.stop_volatile        avgt    5  0,513 ± 0,001  ns/op
 
+/*
 // $JAVA_HOME/bin/java -jar target/benchmarks.jar -prof dtraceasm
-/*@Warmup(iterations = 5, time = 2, timeUnit = TimeUnit.SECONDS)
+@Warmup(iterations = 5, time = 2, timeUnit = TimeUnit.SECONDS)
 @Measurement(iterations = 5, time = 2, timeUnit = TimeUnit.SECONDS)
 @Fork(value = 1)
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
 @State(Scope.Benchmark)
 public class ThreadStopBench {
+
+  boolean stop;
+
+  @Benchmark
+  public boolean no_stop() {
+    return stop;
+  }
+
 
   boolean synchronized_stop;
   final Object synchronized_lock = new Object();
@@ -94,20 +103,20 @@ public class ThreadStopBench {
   }
 
 
-  static final class Stop extends MutableCallSite {
-    public Stop() {
-      super(MethodType.methodType(boolean.class));
-      setTarget(MethodHandles.constant(boolean.class, false));
-    }
-  }
-
-  static final Stop STOP = new Stop();
-  static final MethodHandle STOP_MH = STOP.dynamicInvoker();
-
-  @Benchmark
-  public boolean stop_callsite() throws Throwable {
-    return (boolean) STOP_MH.invokeExact();
-  }
+//  static final class Stop extends MutableCallSite {
+//    public Stop() {
+//      super(MethodType.methodType(boolean.class));
+//      setTarget(MethodHandles.constant(boolean.class, false));
+//    }
+//  }
+//
+//  static final Stop STOP = new Stop();
+//  static final MethodHandle STOP_MH = STOP.dynamicInvoker();
+//
+//  @Benchmark
+//  public boolean stop_callsite() throws Throwable {
+//    return (boolean) STOP_MH.invokeExact();
+//  }
 
 
   final Arena arena = Arena.ofShared();
@@ -117,6 +126,8 @@ public class ThreadStopBench {
   public boolean stop_arena() {
     return !scope.isAlive();
   }
-}*/
+}
+*/
+
 
 
