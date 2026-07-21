@@ -38,7 +38,7 @@ thread.join();*/
 
 
 // ## Why it does not work?
-// The field `stop` is not changed by the thread, so the JIT hoist the access
+// The field `stop` is not changed by the thread, so the JIT hoists the access
 // to `stop` outside of the thread
 
 // The code of the `Runnable`
@@ -87,7 +87,7 @@ thread.join();
 
 // Two questions:
 // - is stopping the thread slow?
-// - what is the overhead of checking to stop?
+// - what is the overhead of checking whenever to stop?
 
 // I'm only interested in the latter question
 
@@ -149,16 +149,16 @@ thread.join();
 // ## Why are the results different on M2 and Xeon?
 // ` `
 
-// `no_stop` use auto-vectorisation, SIMD inside the loop
+// `no_stop` uses auto-vectorisation, SIMD inside the loop
 
-// M2 uses 128 bits register vs Xeon uses 512 bits register, so Xeon is 4x faster
+// M2 uses 128-bit register vs Xeon uses 512 bits register, so Xeon is 4x faster
 
-// Also, [Emanuel Peter](https://eme64.github.io/blog/) did a lot of work on the vectorisation in jdk26,
-// previously, auto-vectorisation only used 64 bits on arm64 :(
+// Also, [Emanuel Peter](https://eme64.github.io/blog/) did a lot of work on the vectorisation
+// in jdk 26, previously, auto-vectorisation only used 64 bits on arm64 :(
 
 
 // ## How to stop a thread?
-// I heard that `ReentrantLock` are faster?
+// I heard that `ReentrantLock` is faster?
 
 class DemoReentrant {
   final ReentrantLock lock = new ReentrantLock();
@@ -185,13 +185,13 @@ thread.join();
 // ` `
 
 // ```text
-// MacBook Air M2 (jdk 26) SIMD 128bits
+// MacBook Air M2 (jdk 26) SIMD 128-bit
 // Benchmark                                           Mode  Cnt    Score   Error  Units
 // ThreadStopLoopArrayAccessBench.no_stop              avgt    5   14.416 ± 0.141  us/op
 // ThreadStopLoopArrayAccessBench.stop_reentrant_lock  avgt    5  841.415 ± 4.100  us/op
 // ThreadStopLoopArrayAccessBench.stop_synchronized    avgt    5  551.283 ± 4.412  us/op
 //
-// Intel(R) Xeon(R) Gold 6240R CPU @ 2.40GHz (jdk 26) SIMD 512bits
+// Intel(R) Xeon(R) Gold 6240R CPU @ 2.40GHz (jdk 26) SIMD 512-bit
 // Benchmark                                           Mode  Cnt     Score    Error  Units
 // ThreadStopLoopArrayAccessBench.no_stop              avgt    5     3.571 ±  0.047  us/op
 // ThreadStopLoopArrayAccessBench.stop_reentrant_lock  avgt    5  1568.583 ± 50.770  us/op
@@ -200,9 +200,9 @@ thread.join();
 
 
 // ## ReentrantLock is not faster
-// They should not be slower either?
+// IT should not be slower either?
 
-// I don't fully know why, maybe some missing optimization on ARM64?
+// I don't fully know why, maybe some missing optimization on arm64?
 
 
 // ## Let's use `thread.interrupt()`
@@ -226,13 +226,13 @@ thread.join();
 // This is at least better than `synchronized`, but still has side effects
 
 // ```text
-// MacBook Air M2 (jdk 26) SIMD 128bits
+// MacBook Air M2 (jdk 26) SIMD 128-bit
 // Benchmark                                           Mode  Cnt    Score   Error  Units
 // ThreadStopLoopArrayAccessBench.no_stop              avgt    5   14.416 ± 0.141  us/op
 // ThreadStopLoopArrayAccessBench.stop_interrupt       avgt    5   63.002 ± 0.347  us/op
 // ThreadStopLoopArrayAccessBench.stop_synchronized    avgt    5  551.283 ± 4.412  us/op
 //
-// Intel(R) Xeon(R) Gold 6240R CPU @ 2.40GHz (jdk 26) SIMD 512bits
+// Intel(R) Xeon(R) Gold 6240R CPU @ 2.40GHz (jdk 26) SIMD 512-bit
 // Benchmark                                           Mode  Cnt     Score    Error  Units
 // ThreadStopLoopArrayAccessBench.no_stop              avgt    5     3.571 ±  0.047  us/op
 // ThreadStopLoopArrayAccessBench.stop_interrupt       avgt    5    81.599 ±  0.135  us/op
@@ -263,14 +263,14 @@ thread.join();
 // ## Benchmark `volatile`
 
 // ```text
-// MacBook Air M2 (jdk 26) SIMD 128bits
+// MacBook Air M2 (jdk 26) SIMD 128-bit
 // Benchmark                                           Mode  Cnt    Score   Error  Units
 // ThreadStopLoopArrayAccessBench.no_stop              avgt    5   14.416 ± 0.141  us/op
 // ThreadStopLoopArrayAccessBench.stop_interrupt       avgt    5   63.002 ± 0.347  us/op
 // ThreadStopLoopArrayAccessBench.stop_synchronized    avgt    5  551.283 ± 4.412  us/op
 // ThreadStopLoopArrayAccessBench.stop_volatile        avgt    5   63.100 ± 0.585  us/op
 //
-// Intel(R) Xeon(R) Gold 6240R CPU @ 2.40GHz (jdk 26) SIMD 512bits
+// Intel(R) Xeon(R) Gold 6240R CPU @ 2.40GHz (jdk 26) SIMD 512-bit
 // Benchmark                                           Mode  Cnt     Score    Error  Units
 // ThreadStopLoopArrayAccessBench.no_stop              avgt    5     3.571 ±  0.047  us/op
 // ThreadStopLoopArrayAccessBench.stop_interrupt       avgt    5    81.599 ±  0.135  us/op
@@ -287,7 +287,7 @@ thread.join();
 // which inhibits loop optimizations
 
 // When [virtual threads were added](https://github.com/openjdk/jdk/commit/9583e3657e43cc1c6f2101a64534564db2a9bd84),
-// `Thread.interrupted()` was rewritten to use volatile instead of using a native C++ method
+// `Thread.interrupted()` was rewritten to use volatile instead of a native C++ method
 
 
 // ## How to stop a thread?
@@ -333,13 +333,13 @@ thread.join();
 // ## Benchmark `opaque`
 
 // ```text
-// MacBook Air M2 (jdk 26) SIMD 128bits
+// MacBook Air M2 (jdk 26) SIMD 128-bit
 // Benchmark                                           Mode  Cnt    Score   Error  Units
 // ThreadStopLoopArrayAccessBench.no_stop              avgt    5   14.416 ± 0.141  us/op
 // ThreadStopLoopArrayAccessBench.stop_opaque          avgt    5   14.591 ± 0.637  us/op
 // ThreadStopLoopArrayAccessBench.stop_volatile        avgt    5   63.100 ± 0.585  us/op
 //
-// Intel(R) Xeon(R) Gold 6240R CPU @ 2.40GHz (jdk 26) SIMD 512bits
+// Intel(R) Xeon(R) Gold 6240R CPU @ 2.40GHz (jdk 26) SIMD 512-bit
 // Benchmark                                           Mode  Cnt     Score    Error  Units
 // ThreadStopLoopArrayAccessBench.no_stop              avgt    5     3.571 ±  0.047  us/op
 // ThreadStopLoopArrayAccessBench.stop_opaque          avgt    5     3.594 ±  0.130  us/op
@@ -367,14 +367,14 @@ thread.join();
 // Reading or writing a `volatile` variable can inhibit optimizations in surrounding code
 
 // Volatile is not free, ask yourself if you need ordering guarantees
-// with respect to other field accesses,  if it's not the case, `opaque` is great
+// with respect to other field accesses.  If not, `opaque` is great
 
 
 // ## Supplementary slide
 // The Full Benchmark
 
 // ```text
-// MacBook Air M2 (jdk 26) SIMD 128bits
+// MacBook Air M2 (jdk 26) SIMD 128-bit
 // Benchmark                                           Mode  Cnt    Score   Error  Units
 // ThreadStopLoopArrayAccessBench.no_stop              avgt    5   14.416 ± 0.141  us/op
 // ThreadStopLoopArrayAccessBench.stop_interrupt       avgt    5   63.002 ± 0.347  us/op
@@ -383,7 +383,7 @@ thread.join();
 // ThreadStopLoopArrayAccessBench.stop_synchronized    avgt    5  551.283 ± 4.412  us/op
 // ThreadStopLoopArrayAccessBench.stop_volatile        avgt    5   63.100 ± 0.585  us/op
 //
-// Intel(R) Xeon(R) Gold 6240R CPU @ 2.40GHz (jdk 26) SIMD 512bits
+// Intel(R) Xeon(R) Gold 6240R CPU @ 2.40GHz (jdk 26) SIMD 512-bit
 // Benchmark                                           Mode  Cnt     Score    Error  Units
 // ThreadStopLoopArrayAccessBench.no_stop              avgt    5     3.571 ±  0.047  us/op
 // ThreadStopLoopArrayAccessBench.stop_interrupt       avgt    5    81.599 ±  0.135  us/op

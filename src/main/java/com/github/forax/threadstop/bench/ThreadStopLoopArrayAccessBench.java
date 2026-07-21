@@ -20,7 +20,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
-// MacBook Air M2 (jdk 26) SIMD 128bits
+// MacBook Air M2 (jdk 26) SIMD 128-bit
 // Benchmark                                           Mode  Cnt    Score   Error  Units
 // ThreadStopLoopArrayAccessBench.no_stop              avgt    5   14.416 ± 0.141  us/op
 // ThreadStopLoopArrayAccessBench.stop_arena           avgt    5   14.424 ± 0.153  us/op
@@ -30,7 +30,7 @@ import java.util.concurrent.locks.ReentrantLock;
 // ThreadStopLoopArrayAccessBench.stop_synchronized    avgt    5  551.283 ± 4.412  us/op
 // ThreadStopLoopArrayAccessBench.stop_volatile        avgt    5   63.100 ± 0.585  us/op
 
-// Intel(R) Xeon(R) Gold 6240R CPU @ 2.40GHz (jdk 26) SIMD 512bits
+// Intel(R) Xeon(R) Gold 6240R CPU @ 2.40GHz (jdk 26) SIMD 512-bit
 // Benchmark                                           Mode  Cnt     Score    Error  Units
 // ThreadStopLoopArrayAccessBench.no_stop              avgt    5     3.571 ±  0.047  us/op
 // ThreadStopLoopArrayAccessBench.stop_arena           avgt    5     3.587 ±  0.040  us/op
