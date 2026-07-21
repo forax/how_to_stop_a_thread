@@ -20,14 +20,25 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
+// MacBook Air M2 (jdk 26) SIMD 128bits
 // Benchmark                                           Mode  Cnt    Score   Error  Units
-// ThreadStopLoopArrayAccessBench.no_stop              avgt    5   29,675 ± 0,352  us/op
-// ThreadStopLoopArrayAccessBench.stop_arena           avgt    5   29,556 ± 0,332  us/op
-// ThreadStopLoopArrayAccessBench.stop_interrupt       avgt    5   63,205 ± 0,304  us/op
-// ThreadStopLoopArrayAccessBench.stop_opaque          avgt    5   29,788 ± 0,104  us/op
-// ThreadStopLoopArrayAccessBench.stop_reentrant_lock  avgt    5  850,208 ± 2,851  us/op
-// ThreadStopLoopArrayAccessBench.stop_synchronized    avgt    5  554,027 ± 3,947  us/op
-// ThreadStopLoopArrayAccessBench.stop_volatile        avgt    5   63,170 ± 0,357  us/op
+// ThreadStopLoopArrayAccessBench.no_stop              avgt    5   14.416 ± 0.141  us/op
+// ThreadStopLoopArrayAccessBench.stop_arena           avgt    5   14.424 ± 0.153  us/op
+// ThreadStopLoopArrayAccessBench.stop_interrupt       avgt    5   63.002 ± 0.347  us/op
+// ThreadStopLoopArrayAccessBench.stop_opaque          avgt    5   14.591 ± 0.637  us/op
+// ThreadStopLoopArrayAccessBench.stop_reentrant_lock  avgt    5  841.415 ± 4.100  us/op
+// ThreadStopLoopArrayAccessBench.stop_synchronized    avgt    5  551.283 ± 4.412  us/op
+// ThreadStopLoopArrayAccessBench.stop_volatile        avgt    5   63.100 ± 0.585  us/op
+
+// Intel(R) Xeon(R) Gold 6240R CPU @ 2.40GHz (jdk 26) SIMD 512bits
+// Benchmark                                           Mode  Cnt     Score    Error  Units
+// ThreadStopLoopArrayAccessBench.no_stop              avgt    5     3.571 ±  0.047  us/op
+// ThreadStopLoopArrayAccessBench.stop_arena           avgt    5     3.587 ±  0.040  us/op
+// ThreadStopLoopArrayAccessBench.stop_interrupt       avgt    5    81.599 ±  0.135  us/op
+// ThreadStopLoopArrayAccessBench.stop_opaque          avgt    5     3.594 ±  0.130  us/op
+// ThreadStopLoopArrayAccessBench.stop_reentrant_lock  avgt    5  1568.583 ± 50.770  us/op
+// ThreadStopLoopArrayAccessBench.stop_synchronized    avgt    5  1581.669 ±  2.749  us/op
+// ThreadStopLoopArrayAccessBench.stop_volatile        avgt    5    81.710 ±  0.236  us/op
 
 // $JAVA_HOME/bin/java -jar target/benchmarks.jar -prof dtraceasm
 @Warmup(iterations = 5, time = 2, timeUnit = TimeUnit.SECONDS)
