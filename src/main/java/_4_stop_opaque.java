@@ -6,7 +6,8 @@ static final VarHandle STOP = createVH();
 private static VarHandle createVH() {
   var lookup = MethodHandles.lookup();
   try {
-    return lookup.findVarHandle(lookup.lookupClass(), "stop", boolean.class);
+    return lookup.findVarHandle(lookup.lookupClass(), "stop", boolean.class)
+        .withInvokeExactBehavior();
   } catch (NoSuchFieldException | IllegalAccessException e) {
     throw new AssertionError(e);
   }
@@ -22,7 +23,7 @@ void loop() {
     }
     // ...
   }
-  System.out.println("end !");
+  IO.println("end !");
 }
 
 void main() throws InterruptedException {

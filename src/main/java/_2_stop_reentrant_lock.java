@@ -15,7 +15,7 @@ void loop() {
     }
     // ...
   }
-  System.out.println("end !");
+  IO.println("end !");
 }
 
 void main() throws InterruptedException {
