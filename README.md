@@ -1,51 +1,22 @@
-# how_to_stop_a_thread
+# How to stop a thread?
+
 A study of the different ways to stop a thread in Java.
 
 For each way to stop a thread, we bench the cost of reading the value `stop` value once
 or multiple times in a loop of an array of 100 000 elements.
 
-The following results are on my MacBook Air M2:
-```
-// ThreadStopBench.stop_synchronized    avgt    5  5.055 ± 0.023  ns/op
-// ThreadStopBench.stop_reentrant_lock  avgt    5  8.406 ± 0.035  ns/op
-// ThreadStopBench.stop_interrupt       avgt    5  0.490 ± 0.002  ns/op
-// ThreadStopBench.stop_volatile        avgt    5  0.496 ± 0.004  ns/op
-// ThreadStopBench.stop_opaque          avgt    5  0.409 ± 0.004  ns/op
-// ThreadStopBench.stop_callsite        avgt    5  0.306 ± 0.002  ns/op
-// ThreadStopBench.stop_arena           avgt    5  0.613 ± 0.004  ns/op
-```
+## Presentation 
 
-```
-// ThreadStopLoopBench.stop_synchronized    avgt    5  510.287 ± 24.235  us/op
-// ThreadStopLoopBench.stop_reentrant_lock  avgt    5  833.998 ±  1.591  us/op
-// ThreadStopLoopBench.stop_interrupt       avgt    5   51.382 ±  0.423  us/op
-// ThreadStopLoopBench.stop_volatile        avgt    5   51.867 ±  0.303  us/op
-// ThreadStopLoopBench.stop_opaque          avgt    5   30.584 ±  0.075  us/op
-// ThreadStopLoopBench.stop_callsite        avgt    5   30.604 ±  0.071  us/op
-// ThreadStopLoopBench.stop_arena           avgt    5   30.592 ±  0.091  us/op
-```
+Presentation slides are available using [jvisualbook](https://github.com/forax/jvisualbook).
 
-The following results are on an x86_64 Intel(R) Xeon(R) Gold 5218 CPU @ 2.30GHz
+Just execute
+```bash
+java -jar jvisualbook.jar
 ```
-Benchmark                                Mode  Cnt     Score    Error  Units
-ThreadStopBench.stop_synchronized        avgt    5    16.696 ±  0.745  ns/op
-ThreadStopBench.stop_reentrant_lock      avgt    5    13.898 ±  0.085  ns/op
-ThreadStopBench.stop_interrupt           avgt    5     0.524 ±  0.006  ns/op
-ThreadStopBench.stop_volatile            avgt    5     0.522 ±  0.023  ns/op
-ThreadStopBench.stop_opaque              avgt    5     0.522 ±  0.023  ns/op
-ThreadStopBench.stop_callsite            avgt    5     0.393 ±  0.001  ns/op
-ThreadStopBench.stop_arena               avgt    5     0.785 ±  0.021  ns/op
-```
+with a version of Java 25 or above.
 
-```
-ThreadStopLoopBench.stop_synchronized    avgt    5  1678.665 ± 38.996  us/op
-ThreadStopLoopBench.stop_reentrant_lock  avgt    5  1409.330 ± 47.300  us/op
-ThreadStopLoopBench.stop_interrupt       avgt    5    65.532 ±  0.358  us/op
-ThreadStopLoopBench.stop_volatile        avgt    5    65.549 ±  0.832  us/op
-ThreadStopLoopBench.stop_opaque          avgt    5    27.700 ±  1.323  us/op
-ThreadStopLoopBench.stop_callsite        avgt    5    27.353 ±  0.050  us/op
-ThreadStopLoopBench.stop_arena           avgt    5    27.844 ±  0.344  us/op
-```
+
+## The snippets of code
 
 1. Using synchronized
 
@@ -64,7 +35,7 @@ void loop() {
     }
     // ...
   }
-  System.out.println("end !");
+  IO.println("end !");
 }
 
 void main() throws InterruptedException {
@@ -98,7 +69,7 @@ void loop() {
     }
     // ...
   }
-  System.out.println("end !");
+  IO.println("end !");
 }
 
 void main() throws InterruptedException {
@@ -127,7 +98,7 @@ void loop() {
     }
     // ...
   }
-  System.out.println("end !");
+  IO.println("end !");
 }
 
 void main() throws InterruptedException {
@@ -153,7 +124,7 @@ void loop() {
     }
     // ...
   }
-  System.out.println("end !");
+  IO.println("end !");
 }
 
 void main() throws InterruptedException {
@@ -178,7 +149,8 @@ static final VarHandle STOP = createVH();
 private static VarHandle createVH() {
   var lookup = MethodHandles.lookup();
   try {
-    return lookup.findVarHandle(lookup.lookupClass(), "stop", boolean.class);
+    return lookup.findVarHandle(lookup.lookupClass(), "stop", boolean.class)
+        .withInvokeExactBehavior();
   } catch (NoSuchFieldException | IllegalAccessException e) {
     throw new AssertionError(e);
   }
@@ -194,7 +166,7 @@ void loop() {
     }
     // ...
   }
-  System.out.println("end !");
+  IO.println("end !");
 }
 
 void main() throws InterruptedException {
@@ -239,7 +211,7 @@ void loop() {
     }
     // ...
   }
-  System.out.println("end !");
+  IO.println("end !");
 }
 
 void main() throws InterruptedException {
@@ -268,7 +240,7 @@ void loop() {
     }
     // ...
   }
-  System.out.println("end !");
+  IO.println("end !");
 }
 
 void main() throws InterruptedException {
